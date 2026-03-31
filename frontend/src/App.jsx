@@ -152,7 +152,7 @@ const LoginView = ({ onLogin }) => {
         if (isIdentifierCorrect && isPasswordCorrect) {
           onLogin();
         } else {
-          setError('Sorry, your password was incorrect. Please double-check your password.');
+          setError('Invalid Credentials. Please Try Again.');
         }
       }, 1000);
     }
