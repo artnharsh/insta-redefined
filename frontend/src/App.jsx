@@ -746,44 +746,93 @@ const ProfileView = ({ onLogout }) => {
         )}
       </AnimatePresence>
 
-      <Panel className="p-4 md:p-8 mb-4 md:mb-6 rounded-none md:rounded-3xl border-x-0 md:border-x">
-        <div className="flex items-center gap-6 md:gap-10 mb-4 md:mb-8">
-          <div className="relative shrink-0">
-            <div className={`w-20 h-20 md:w-32 md:h-32 rounded-full p-[3px] ${isDarkMode ? 'bg-gradient-to-tr from-yellow-400 via-red-500 to-fuchsia-600' : 'bg-gradient-to-tr from-yellow-400 via-red-500 to-fuchsia-600'}`}>
-              <div className={`p-0.5 rounded-full w-full h-full ${isDarkMode ? 'bg-[#151515]' : 'bg-white'}`}>
-                <img src={CURRENT_USER.avatar} alt="Profile" className="w-full h-full rounded-full object-cover" />
+      <Panel className="relative overflow-hidden p-4 md:p-8 mb-4 md:mb-6 rounded-none md:rounded-3xl border-x-0 md:border-x">
+        <div className="pointer-events-none absolute inset-0">
+          <div className={`absolute inset-0 ${isDarkMode ? 'bg-[radial-gradient(circle_at_10%_15%,rgba(56,189,248,0.14),transparent_35%),radial-gradient(circle_at_86%_78%,rgba(236,72,153,0.12),transparent_35%)]' : 'bg-[radial-gradient(circle_at_10%_15%,rgba(14,165,233,0.15),transparent_35%),radial-gradient(circle_at_86%_78%,rgba(251,113,133,0.14),transparent_35%)]'}`} />
+        </div>
+
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-4 md:gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className={`rounded-3xl p-5 md:p-7 border ${isDarkMode ? 'bg-black/35 border-white/10' : 'bg-white/65 border-white shadow-[0_10px_45px_rgba(17,24,39,0.09)]'}`}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-center gap-4 md:gap-5">
+                <div className="relative shrink-0">
+                  <div className="w-20 h-20 md:w-28 md:h-28 rounded-full p-[2px] bg-gradient-to-br from-amber-300 via-rose-500 to-indigo-500">
+                    <div className={`w-full h-full rounded-full p-[2px] ${isDarkMode ? 'bg-[#151515]' : 'bg-white'}`}>
+                      <img src={CURRENT_USER.avatar} alt="Profile" className="w-full h-full rounded-full object-cover" />
+                    </div>
+                  </div>
+                  <div className={`absolute -bottom-1 -right-1 w-7 h-7 rounded-full border-2 flex items-center justify-center ${isDarkMode ? 'bg-[#0f172a] border-[#151515]' : 'bg-white border-white shadow-sm'}`}>
+                    <CheckCircle2 className="w-4 h-4 text-[#0095f6]" fill="currentColor" />
+                  </div>
+                </div>
+
+                <div>
+                  <p className={`text-[11px] uppercase tracking-[0.25em] ${isDarkMode ? 'text-zinc-500' : 'text-gray-500'}`}>Creator Profile</p>
+                  <h2 className={`text-xl md:text-3xl font-semibold leading-tight tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>{CURRENT_USER.username}</h2>
+                  <p className={`text-sm md:text-base mt-0.5 ${isDarkMode ? 'text-zinc-200' : 'text-gray-800'}`}>{CURRENT_USER.name}</p>
+                  <p className="text-sm text-[#0095f6]">{CURRENT_USER.category}</p>
+                </div>
               </div>
+
+              <button className={`hidden md:flex items-center gap-2 text-xs font-semibold px-3 py-2 rounded-full border transition-colors ${isDarkMode ? 'border-white/15 text-zinc-300 hover:text-white hover:border-white/30' : 'border-black/10 text-gray-700 hover:text-black hover:border-black/25'}`}>
+                <Lock className="w-3.5 h-3.5" />
+                Curated
+              </button>
             </div>
-          </div>
-          <div className="flex-1 flex justify-around text-center md:text-left md:justify-start md:gap-10">
-            <div className="flex flex-col md:flex-row md:items-baseline md:gap-2"><span className={`text-lg md:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{CURRENT_USER.stats.posts}</span> <span className={`text-sm ${isDarkMode ? 'text-zinc-400' : 'text-gray-600'}`}>posts</span></div>
-            <div className="flex flex-col md:flex-row md:items-baseline md:gap-2"><span className={`text-lg md:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{CURRENT_USER.stats.followers}</span> <span className={`text-sm ${isDarkMode ? 'text-zinc-400' : 'text-gray-600'}`}>followers</span></div>
-            <div className="flex flex-col md:flex-row md:items-baseline md:gap-2"><span className={`text-lg md:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{CURRENT_USER.stats.following}</span> <span className={`text-sm ${isDarkMode ? 'text-zinc-400' : 'text-gray-600'}`}>following</span></div>
-          </div>
+
+            <div className={`mt-5 pt-4 border-t ${isDarkMode ? 'border-white/10 text-zinc-200' : 'border-black/10 text-gray-800'}`}>
+              <div className="text-sm leading-relaxed max-w-xl">
+                {CURRENT_USER.bio.split('\n').map((line, i) => <p key={i}>{line}</p>)}
+              </div>
+              <p className={`mt-3 text-xs ${isDarkMode ? 'text-zinc-400' : 'text-gray-500'}`}>Followed by <span className={`font-semibold ${isDarkMode ? 'text-white' : 'text-black'}`}>antra_suna</span> and 18 others</p>
+            </div>
+
+            <div className="mt-5 flex gap-2.5 w-full">
+              <button className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-[#0095f6] to-[#0e6daa] hover:from-[#1d9bf7] hover:to-[#0d5f93] transition-all">Follow</button>
+              <button className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-colors ${isDarkMode ? 'bg-white/10 text-white hover:bg-white/15' : 'bg-black/5 text-black hover:bg-black/10'}`}>Message</button>
+              <button className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-colors ${isDarkMode ? 'bg-white/10 text-white hover:bg-white/15' : 'bg-black/5 text-black hover:bg-black/10'}`}>Email</button>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
+            className={`rounded-3xl p-5 md:p-6 border ${isDarkMode ? 'bg-black/35 border-white/10' : 'bg-white/65 border-white shadow-[0_10px_45px_rgba(17,24,39,0.09)]'}`}
+          >
+            <p className={`text-[11px] uppercase tracking-[0.23em] ${isDarkMode ? 'text-zinc-500' : 'text-gray-500'}`}>Performance</p>
+            <div className="mt-4 space-y-4">
+              {[
+                { label: 'Posts', value: CURRENT_USER.stats.posts },
+                { label: 'Followers', value: CURRENT_USER.stats.followers },
+                { label: 'Following', value: CURRENT_USER.stats.following },
+              ].map((item, idx) => (
+                <div key={item.label} className={`pb-3 ${idx < 2 ? (isDarkMode ? 'border-b border-white/10' : 'border-b border-black/10') : ''}`}>
+                  <p className={`text-xs uppercase tracking-[0.16em] ${isDarkMode ? 'text-zinc-500' : 'text-gray-500'}`}>{item.label}</p>
+                  <p className={`text-2xl md:text-3xl font-semibold mt-1 ${isDarkMode ? 'text-white' : 'text-black'}`}>{item.value}</p>
+                </div>
+              ))}
+            </div>
+            <button className={`mt-4 w-full rounded-full py-2.5 text-sm font-semibold transition-colors ${isDarkMode ? 'bg-white/10 text-white hover:bg-white/15' : 'bg-black/5 text-black hover:bg-black/10'}`}>
+              View Insights
+            </button>
+          </motion.div>
         </div>
-        <div className="mb-6 px-1 md:px-0">
-          <p className={`font-semibold text-sm md:text-base ${isDarkMode ? 'text-white' : 'text-black'}`}>{CURRENT_USER.name}</p>
-          <p className="text-sm text-[#0095f6] mb-1">{CURRENT_USER.category}</p>
-          <div className={`text-sm leading-snug mb-2 ${isDarkMode ? 'text-zinc-200' : 'text-gray-800'}`}>
-            {CURRENT_USER.bio.split('\n').map((line, i) => <p key={i}>{line}</p>)}
-          </div>
-          <p className={`text-xs ${isDarkMode ? 'text-zinc-400' : 'text-gray-500'}`}>Followed by <span className={`font-semibold ${isDarkMode ? 'text-white' : 'text-black'}`}>antra_suna</span></p>
-        </div>
-        <div className="flex gap-2 w-full">
-          <button className={`flex-1 py-1.5 rounded-lg font-semibold text-sm transition-colors ${isDarkMode ? 'bg-[#0095f6] text-white hover:bg-blue-600' : 'bg-[#0095f6] text-white hover:bg-blue-600'}`}>Follow</button>
-          <button className={`flex-1 py-1.5 rounded-lg font-semibold text-sm transition-colors ${isDarkMode ? 'bg-zinc-800 text-white hover:bg-zinc-700' : 'bg-gray-200 text-black hover:bg-gray-300'}`}>Message</button>
-          <button className={`flex-1 py-1.5 rounded-lg font-semibold text-sm transition-colors ${isDarkMode ? 'bg-zinc-800 text-white hover:bg-zinc-700' : 'bg-gray-200 text-black hover:bg-gray-300'}`}>Email</button>
-          <button className={`px-3 py-1.5 rounded-lg transition-colors flex items-center justify-center ${isDarkMode ? 'bg-zinc-800 text-white hover:bg-zinc-700' : 'bg-gray-200 text-black hover:bg-gray-300'}`}><UserCircle className="w-5 h-5" /></button>
-        </div>
-        <div className="flex gap-4 overflow-x-auto pb-2 mt-6 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+
+        <div className="relative z-10 flex gap-4 overflow-x-auto pb-2 mt-6 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
           {HIGHLIGHTS.map((highlight) => (
-            <div key={highlight.id} className="flex flex-col items-center flex-shrink-0 cursor-pointer">
-              <div className={`p-[2px] rounded-full mb-1 border ${isDarkMode ? 'border-zinc-700' : 'border-gray-300'}`}>
+            <div key={highlight.id} className="flex flex-col items-center flex-shrink-0 cursor-pointer group">
+              <div className={`p-[2px] rounded-full mb-1 border transition-all duration-300 group-hover:scale-105 ${isDarkMode ? 'border-white/20 group-hover:border-white/35' : 'border-black/15 group-hover:border-black/30'}`}>
                 <div className={`p-0.5 rounded-full ${isDarkMode ? 'bg-[#151515]' : 'bg-white'}`}>
                   <img src={highlight.image} alt={highlight.title} className="w-14 h-14 md:w-16 md:h-16 rounded-full object-cover" />
                 </div>
               </div>
-              <span className={`text-[11px] font-medium ${isDarkMode ? 'text-zinc-300' : 'text-gray-800'}`}>{highlight.title}</span>
+              <span className={`text-[11px] uppercase tracking-[0.08em] ${isDarkMode ? 'text-zinc-400' : 'text-gray-700'}`}>{highlight.title}</span>
             </div>
           ))}
         </div>
